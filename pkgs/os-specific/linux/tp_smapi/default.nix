@@ -2,26 +2,18 @@
   stdenv,
   lib,
   fetchFromGitHub,
-  fetchpatch,
   kernel,
-  writeScript,
-  coreutils,
-  gnugrep,
-  jq,
-  curl,
-  common-updater-scripts,
-  runtimeShell,
 }:
 
 stdenv.mkDerivation rec {
   name = "tp_smapi-${version}-${kernel.version}";
-  version = "0.44";
+  version = "0.44-unstable-2025-05-26";
 
   src = fetchFromGitHub {
     owner = "linux-thinkpad";
     repo = "tp_smapi";
-    rev = "9c97f723bec6fd159509017908954109fb5f7fc1";
-    sha256 = "1rjb0njckczc2mj05cagvj0lkyvmyk6bw7wkiinv81lw8m90g77g";
+    rev = "a6122c0840c36bf232250afd1da30aaedaf24910";
+    hash = "sha256-4bVyhTVj29ni9hduN20+VEl5/N0BAoMNMBw+k4yl8Y0=";
   };
 
   nativeBuildInputs = kernel.moduleBuildDependencies;
@@ -43,19 +35,6 @@ stdenv.mkDerivation rec {
   dontStrip = true;
 
   enableParallelBuilding = true;
-
-  passthru.updateScript = import ./update.nix {
-    inherit
-      lib
-      writeScript
-      coreutils
-      gnugrep
-      jq
-      curl
-      common-updater-scripts
-      runtimeShell
-      ;
-  };
 
   meta = {
     description = "IBM ThinkPad hardware functions driver";
